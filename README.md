@@ -20,9 +20,9 @@ The dataset used a `csv` file scraped from [ImmoWeb](https://www.immoweb.be/en) 
 
 - Within Jupyter Notebook  `immo_eliza_data_analysis.ipynb` you will be able to navigate and consult the different graphs.
 - The following graphics were generated with Plotly, as part of the analysis of the data provided.
-![Map Belgium](data\map.png)
-![Amount Properties](data\Plot_amount_properties_per_district.jpg)
-![Price District](data\Plot_mean_price_per_district.jpg)
+![Map Belgium](data/map.png)
+![Amount Properties](data/Plot_amount_properties_per_district.png)
+![Price District](data/Plot_mean_price_per_district.png)
 
 ## Timeline
 
