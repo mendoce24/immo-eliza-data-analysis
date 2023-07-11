@@ -6,9 +6,9 @@ A solo project @ [BeCode.org](https://becode.org/) as part of the **AI Bootcamp*
 
 This is the second stage of a larger project to create a Machine Learning (ML) model to predict sell prices of real estate properties in Belgium.
 
-The current task is to clean the actual data (at least 10,000 entries) from the Belgian real estate market. This data will be used to show graphs and make the analysis of the model.
+The current task is to clean the actual data (at least 19,000 entries) of the Belgian real estate market. These data will be used to display graphs and do model analysis.
 
-The dataset used a `csv` file scraped from [ImmoWeb](https://www.immoweb.be/en) website, that was provider from the project [ImmoEliza-DataScraper](https://github.com/vitaly-shalem/ImmoEliza-DataScraper).
+The dataset used a `csv` file scraped from [ImmoWeb](https://www.immoweb.be/en) website, which was provided from the  [ImmoEliza-DataScraper](https://github.com/vitaly-shalem/ImmoEliza-DataScraper) project.
 
 ## Installation
 
@@ -18,7 +18,11 @@ The dataset used a `csv` file scraped from [ImmoWeb](https://www.immoweb.be/en) 
 
 ## Usage
 
-- Execute the script you can surf throught the Jupyter Notebook  `immo_eliza_data_analysis.ipynb` and see the diferents graphys.
+- Within Jupyter Notebook  `immo_eliza_data_analysis.ipynb` you will be able to navigate and consult the different graphs.
+- The following graphics were generated with Plotly, as part of the analysis of the data provided.
+![Map Belgium](data\map.png)
+![Amount Properties](data\Plot_amount_properties_per_district.jpg)
+![Price District](data\Plot_mean_price_per_district.jpg)
 
 ## Timeline
 
