@@ -31,13 +31,21 @@ The dataset used a `csv` file scraped from [ImmoWeb](https://www.immoweb.be/en) 
 - Within Jupyter Notebook  `immo_eliza_data_exploration_categorical.ipynb` you will be able to navigate and consult differents graphs and methos to clean the data and prepared to be usefull to the model, in this version we used also the categorical data to used in the model.
 - To perform the model prediction we used four different models to find the best way to obtain the maximum prediction score.
 When carrying out the model with the different regression methods we can obtain better results with Random Forest Regressor.
---Linear Regression `immo_eliza_data_building.ipynb`
+
+- Linear Regression `immo_eliza_data_building.ipynb`
+  
 ![Linear Regression](output/linear_r.png)
---XGB Regressor `immo_eliza_data_building_XGBBoost.ipynb`
+
+- XGB Regressor `immo_eliza_data_building_XGBBoost.ipynb`
+  
 ![XGB Regressor](output/XG_boots.png)
---Tree Regressor `immo_eliza_data_building_tree.ipynb`
+
+- Tree Regressor `immo_eliza_data_building_tree.ipynb`
+  
 ![Tree Regressor](output/tree_decision.png)
-Random Forest Regressor `immo_eliza_data_building_tree.ipynb`
+
+- Random Forest Regressor `immo_eliza_data_building_tree.ipynb`
+  
 ![Random Forest Regressor](output/random_forest.png)
 
 ## Timeline
