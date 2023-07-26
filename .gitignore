@@ -3,3 +3,6 @@ __pycache__/
 
 # virtual environment
 immo-eliza-data-analysis-env/
+
+# data model file
+models/
