@@ -1,0 +1,40 @@
+###
+@item=3
+GET http://localhost:8000/predict/
+
+###
+POST  http://localhost:8000/predict
+Content-Type: application/json
+
+{
+  "transactionSubtype": "string",
+  "price": 250000,
+  "type": "string",
+  "subtype": "string",
+  "region": "string",
+  "province": "string",
+  "floor": 0,
+  "bedroomCount": 0,
+  "netHabitableSurface": 0,
+  "constructionYear": 0,
+  "facadeCount": 0,
+  "floorCount": 0,
+  "condition": "string",
+  "hasLift": 0,
+  "kitchen": "string",
+  "hasGarden": 0,
+  "gardenSurface": 0,
+  "hasTerrace": 0,
+  "terraceSurface": 0,
+  "fireplaceExists": 0,
+  "hasSwimmingPool": 0,
+  "hasAirConditioning": 0,
+  "bathroomCount": 0,
+  "showerRoomCount": 0,
+  "toiletCount": 0,
+  "parkingCountIndoor": 0,
+  "parkingCountOutdoor": 0,
+  "primaryEnergyConsumptionPerSqm": 0,
+  "epcScore": "string",
+  "hasDoubleGlazing": 0
+}
