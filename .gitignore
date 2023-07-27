@@ -6,3 +6,5 @@ immo-eliza-data-analysis-env/
 
 # data model file
 models/
+
+test.ipynb
