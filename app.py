@@ -1,6 +1,11 @@
 from fastapi import FastAPI, HTTPException
 from src.immodataset import Immo
 import pandas as pd
+import pickle
+from src.regressor_models import RegressorModels
+from src.preprocessing import Preprocessing
+import json
+import numpy as np
 
 app = FastAPI()
 
@@ -12,7 +17,6 @@ def index():
 def read_item():
     im = Immo(
         transactionSubtype= '',
-        price= 0,
         type= '',
         subtype= '',
         region= '',
@@ -53,39 +57,100 @@ def read_item():
 
 @app.post('/predict')
 def update_item(item: Immo):
-    immo = item.model_dump()
-    immo = pd.DataFrame.from_dict(immo)
+    #immo = item.dict()
+    #dict= json.loads(item)
+    #immo = pd.read_json(item)
+    immo = transform_data(item)
 
-    if (str(immo['price']).isdigit() & 
-          str(item['constructionYear']).isdigit() &
-          str(item['netHabitableSurface']).isdigit()) == False:
-        raise HTTPException(status_code=404, detail='expected numbers, got strings.')
+    if (str(immo.constructionYear).isdigit() &
+          str(immo.netHabitableSurface).isdigit()) == False:
+        raise HTTPException(status_code=404, detail='expected numbers, got strings.' + str(immo.constructionYear)+', '+str(immo.netHabitableSurface))
 
-    # get the dummies and store it in a variable
-    transactionSubtype_dummies = pd.get_dummies(immo.transactionSubtype,dtype=int)
-    type_dummies = pd.get_dummies(immo.type,dtype=int)
-    subtype_dummies = pd.get_dummies(immo.subtype,dtype=int)
-    region_dummies = pd.get_dummies(immo.region,dtype=int)
-    province_dummies = pd.get_dummies(immo.province,dtype=int)
-    condition_dummies = pd.get_dummies(immo.condition,dtype=int)
-    kitchen_dummies = pd.get_dummies(immo.kitchen,dtype=int)
-    epcScore_dummies = pd.get_dummies(immo.epcScore,dtype=int)
-    
-    # Concatenate the dummies to original dataframe
-    immo = pd.concat([immo, transactionSubtype_dummies, type_dummies, subtype_dummies, region_dummies, 
-                    province_dummies, condition_dummies, kitchen_dummies, epcScore_dummies], axis='columns')
-    
-    # drop the values
-    immo = immo.drop(['transactionSubtype', 'type', 'subtype', 'region', 'province', 'condition', 'kitchen', 'epcScore'], axis='columns')
+    immo = Preprocessing().format_data(immo)
 
-    immo.hasLift = immo.hasLift.replace({True: 1, False: 0})
-    immo.hasGarden = immo.hasGarden.replace({True: 1, False: 0})
-    immo.hasTerrace = immo.hasTerrace.replace({True: 1, False: 0})
-    immo.fireplaceExists = immo.fireplaceExists.replace({True: 1, False: 0})
-    immo.hasSwimmingPool = immo.hasSwimmingPool.replace({True: 1, False: 0})
-    immo.hasAirConditioning = immo.hasAirConditioning.replace({True: 1, False: 0})
-    immo.hasDoubleGlazing = immo.hasDoubleGlazing.replace({True: 1, False: 0})
 
-    
+    filename = "../models/immo_model.pickle"
 
-    return (immo['price']) # salary + bonus - taxes
+    # load model
+    loaded_model = pickle.load(open(filename, "rb"))
+
+    # predition with training data 
+    pred_train= loaded_model.predict(immo)
+    # calculating performance metric training
+    score, mse, rmse, mae = RegressorModels.get_performance(immo, pred_train)
+
+    value_to_return = ''
+    for item in pred_train:
+        value_to_return += '{ "prediction": '+ item +', "status_code": Optional[int]}'
+
+    return (value_to_return)
+
+
+def transform_data(data):
+    '''immo = {
+        'transactionSubtype': [data.transactionSubtype],
+        "type": [data.type],
+        "subtype": [data.subtype],
+        "region": [data.region],
+        "province": [data.province],
+        "floor": [data.floor],
+        "bedroomCount": [data.bedroomCount],
+        "netHabitableSurface": [data.netHabitableSurface],
+        "constructionYear": [data.constructionYear],
+        "facadeCount": [data.facadeCount],
+        "floorCount": [data.floorCount],
+        "condition": [data.condition],
+        "hasLift": [data.hasLift],
+        "kitchen": [data.kitchen],
+        "hasGarden": [data.hasGarden],
+        "gardenSurface": [data.gardenSurface],
+        "hasTerrace": [data.hasTerrace],
+        "terraceSurface": [data.terraceSurface],
+        "fireplaceExists": [data.fireplaceExists],
+        "hasSwimmingPool": [data.hasSwimmingPool],
+        "hasAirConditioning": [data.hasAirConditioning],
+        "bathroomCount": [data.bathroomCount],
+        "showerRoomCount": [data.showerRoomCount],
+        "toiletCount": [data.toiletCount],
+        "parkingCountIndoor": [data.parkingCountIndoor],
+        "parkingCountOutdoor": [data.parkingCountOutdoor],
+        "primaryEnergyConsumptionPerSqm": [data.primaryEnergyConsumptionPerSqm],
+        "epcScore": [data.epcScore],
+        "hasDoubleGlazing": [data.hasDoubleGlazing]
+    }'''
+
+
+    immo = pd.DataFrame(np.array(item.dict()),
+                   columns=["transactionSubtype",
+                            "type",
+                            "subtype",
+                            "region",
+                            "province",
+                            "floor",
+                            "bedroomCount",
+                            "netHabitableSurface",
+                            "constructionYear",
+                            "facadeCount",
+                            "floorCount",
+                            "condition",
+                            "hasLift",
+                            "kitchen",
+                            "hasGarden",
+                            "gardenSurface",
+                            "hasTerrace",
+                            "terraceSurface",
+                            "fireplaceExists",
+                            "hasSwimmingPool",
+                            "hasAirConditioning",
+                            "bathroomCount",
+                            "showerRoomCount",
+                            "toiletCount",
+                            "parkingCountIndoor",
+                            "parkingCountOutdoor",
+                            "primaryEnergyConsumptionPerSqm",
+                            "epcScore",
+                            "hasDoubleGlazing"])
+
+    #immo = pd.DataFrame(data=immo)
+
+    return immo
