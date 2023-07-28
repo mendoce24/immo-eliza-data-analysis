@@ -6,7 +6,7 @@ class Preprocessing():
     def __init__(self) -> None:
         pass
 
-    def format_data(self, immo):
+    def format_data_get_dummies(self, immo):
         # get the dummies and store it in a variable
         transactionSubtype_dummies = pd.get_dummies(immo.transactionSubtype,dtype=int)
         type_dummies = pd.get_dummies(immo.type,dtype=int,prefix='TYPE_')
@@ -20,7 +20,6 @@ class Preprocessing():
         # Concatenate the dummies to original dataframe
         immo = pd.concat([immo, transactionSubtype_dummies, type_dummies, subtype_dummies, region_dummies, 
                         province_dummies, condition_dummies, kitchen_dummies, epcScore_dummies], axis='columns')
-        
 
         # drop the values
         immo = immo.drop(['transactionSubtype', 'type', 'subtype', 'region', 'province', 'condition', 'kitchen', 'epcScore'], 
@@ -37,3 +36,38 @@ class Preprocessing():
         immo.columns = immo.columns.str.replace(' ', '_')
         
         return immo
+    
+    
+    def transform_data_api(self, data):
+        df = pd.DataFrame(
+            {
+                'transactionSubtype': [data.transactionSubtype],
+                'type': [data.type],
+                "subtype": [data.subtype],
+                "region": [data.region],
+                "province": [data.province],
+                "bedroomCount": [data.bedroomCount],
+                "netHabitableSurface": data.netHabitableSurface,
+                "constructionYear": data.constructionYear,
+                "facadeCount": [data.facadeCount],
+                "floorCount": [data.floorCount],
+                "condition": [data.condition],
+                "hasLift": [data.hasLift],
+                "kitchen": [data.kitchen],
+                "hasGarden": [data.hasGarden],
+                "hasTerrace": [data.hasTerrace],
+                "fireplaceExists": [data.fireplaceExists],
+                "hasSwimmingPool": [data.hasSwimmingPool],
+                "hasAirConditioning": [data.hasAirConditioning],
+                "bathroomCount": [data.bathroomCount],
+                "showerRoomCount": [data.showerRoomCount],
+                "toiletCount": [data.toiletCount],
+                "parkingCountIndoor": [data.parkingCountIndoor],
+                "parkingCountOutdoor": [data.parkingCountOutdoor],
+                "primaryEnergyConsumptionPerSqm": [data.primaryEnergyConsumptionPerSqm],
+                "epcScore": [data.epcScore],
+                "hasDoubleGlazing": [data.hasDoubleGlazing]
+            }
+            )
+        
+        return df
