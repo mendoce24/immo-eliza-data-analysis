@@ -44,7 +44,7 @@ When carrying out the model with the different regression methods we can obtain 
 Linear Regression (Test Score: 0.39)            |  XGB Regressor (Test Score: 0.62)
 :-------------------------:|:-------------------------:
 ![Linear Regression](output/linear_r.png)  | ![XGB Regressor](output/XG_boots.png)
-Tree Regressor (Test Score: 0.67)             |  Random Forest Regressor (Test Score: 0.67)
+Tree Regressor (Test Score: 0.62)             |  Random Forest Regressor (Test Score: 0.67)
 ![Tree Regressor](output/tree_decision.png)  | ![Random Forest Regressor](output/random_forest.png)
 
 ### Deployment
